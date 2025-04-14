@@ -1,0 +1,305 @@
+* {
+    box-sizing: border-box;
+  }
+body {
+    font-family: Arial, sans-serif;
+	margin: 0;
+	background-color: #111;
+	text-align: center;
+	width: 100%;
+	height: 2000px;
+}
+.container {
+	position: relative;
+	display: inline-block;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+    max-width: 100%; /* 容器的最大宽度 */
+    margin: 0 auto; /* 水平居中容器 */
+  }
+.left{
+	float: left;
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 75%;
+	height: 100%;
+}
+.right{
+	float: right;
+	position: absolute;
+	position: fixed;
+	top:-19%;
+	right:0px;
+	width: 25%;
+	height: 119%;
+	background-color: #ddd; /* 背景颜色 */
+	opacity: 90%;
+	z-index: 1000;
+}
+.rightpart{
+	margin-top: 40%;
+}
+.cartword{
+	font-size: 40px;
+	color: #333333;
+}
+#cart{
+	text-align: center;
+	margin-top: 10%;
+	margin-left: 60%;
+}
+#cart-items {
+    padding-left: 0; /* 移除默认的左内边距 */
+    text-align: left; /* 设置文本左对齐 */
+	margin-left: 140px;
+  }
+  #cart-items li {
+    margin-bottom: 5px; /* 为每个列表项添加底部外边距 */
+  }
+#main{
+	width: 100%;
+	height: 100%;
+	margin-top: 1%;
+	text-align: center;
+	font-size: 25px;
+}
+.groupname{
+	display: block;
+	font-size: 30px;
+	float: left;
+	margin-left: 0%;
+	color: whitesmoke;
+	margin-top: 7%;
+}
+.groupname1{
+	display: block;
+	font-size: 30px;
+	float: left;
+	margin-left: 10%;
+	color: whitesmoke;
+	margin-top: 1%;
+}
+.group1{
+	display:flex;
+	flex-wrap: wrap;
+	width: 100%;
+	float: left;
+	margin-left: -10%;
+	margin-top: 5%;
+}
+.group{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	float: left;
+	margin-left: -10%;
+	margin-top: 5%;
+}
+#product{
+	display: inline-block;
+	flex-wrap: wrap;
+	
+}
+#products{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	height: auto;
+	float: left;
+	margin-left: 3%;
+	margin-top: 1%;
+}
+#product1{
+	color: #F0F3F8;
+	float: left;
+	text-align: center;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	margin-top:3%;
+	background-color:#333333;
+	border: 1px solid#AAAAAA;
+	height: 600px;
+	width:400px;
+}
+.productword{
+	color: #F0F3F8;
+	float: left;
+	text-align: center;
+	margin-left: 10px;
+	margin-bottom: 20px;
+	margin-top:8%;
+	background-color: #333333;
+	border: 1px solid#AAAAAA;
+	height: 600px;
+	width:400px;
+}
+.productphoto{
+	float: left;
+	margin-left: 48px;
+	margin-right: 20px;
+	margin-top: 100px;
+	width: 200px;
+	height: 200px;
+}
+.productphoto1{
+	float: left;
+	margin-left: 48px;
+	margin-top: 100px;
+	width: 200px;
+	height: 200px;
+}
+.product{
+	display: inline-block;
+	margin-top: 0px;
+	text-align: center;
+	margin-left: 0px;
+	font-size: 20px;
+	color: whitesmoke;
+}
+.product.h2{
+	text-align: center;
+}
+.productgroup1{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	float: left;
+	margin-left: 10px;
+}
+.productgroup{
+	width: 100%;
+	display: block;
+	float: left;
+	margin-top: 50px;
+	margin-left: 5px;
+}
+.btn {
+	--hue: 190;/*色相*/
+	margin-left: -500px;
+	margin-top: 30px;
+	position: relative;
+	padding: 1rem 3rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: white;
+	text-decoration: none;/*文本无修饰*/
+	background-color: hsl(var(--hue), 100%, 41%);/*hsl色相（Hue）、饱和度（Saturation）、亮度（Lightness）*/
+	border: 2px solid hsl(var(--hue), 100%, 41%);
+	outline-style: solid ;/*实线轮廓*/
+	outline-color: #ffff7f;/*实线颜色*/
+	outline: transparent;/*设置元素的轮廓颜色为透明*/
+	overflow: hidden;/*溢出元素框的部分不可见*/
+	cursor: pointer;/*指针悬停在元素上方时显示为光标类型*/
+	user-select: none;/*用户不能选择文本*/
+	white-space: nowrap;/*换行及行首尾空格全部被合并，文本不会换行，文本会在在同一行上继续，直到遇到标签为止*/
+	transition: 0.25s;/*过渡时间0.25s*/
+	
+	&:hover {
+		background: hsl(var(--hue), 100%, 31%);/*指针悬停时改变颜色亮度*/
+	}
+}
+.btn-primary {/*按钮背景颜色*/
+	--hue: 920;/*可在这里换其他颜色*/
+}
+.btn-ghost {
+	color: hsl(var(--hue), 100%, 41%);
+	background-color: transparent; /*背景颜色为透明*/
+	border-color: hsl(var(--hue), 100%, 41%);
+	&:hover {
+		color: white;
+	}
+}
+.btn-shine{
+	color: white;
+	&::before {
+	position: absolute;
+	content: "";/*没有特定内容被插入*/
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(/*创建线性渐变背景*/
+	120deg,/*渐变方向从正下方偏左开始*/
+	transparent,/*渐变的开始颜色，透明*/
+	hsla(var(--hue), 100%, 41%, 0.5),/*hsla是颜色函数，饱和度、亮度、透明度*/
+	transparent/*渐变的结束颜色，透明*/
+	);
+	transform: translateX(-100%);/*水平方向移动自身宽度的-100%*/
+	transition: 0.6s;/*默认状态*/
+	}
+	&:hover {/*悬停状态*/
+		background: transparent;/*悬停时元素背景为透明*/
+		box-shadow: 0 0 20px 10px hsla(var(--hue), 100%, 41%, 0.5);/*盒子阴影，水平和垂直方向都没有平移，模糊半径20px，扩展半径10px，透明度0.5*/
+	}
+	&:hover::before {/*悬停伪元素样式，对：：before这个伪元素*/
+		transform: translateX(100%);
+	}
+} 
+.twobutton{
+	position: fixed;
+	width: 1%;
+	height: 2%;
+	top:70%;
+	buttom:20px;
+	right:-30px;
+	padding: 10px; /* 内边距 */
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.2); /* 底部阴影 */
+	z-index: 1000; /* 确保在页面最上层 */
+}
+.add-to-cart{
+	font-size: 20px;
+}
+.price{
+	color: red;
+}
+.backgroundphoto{
+	
+	float: right;
+	position: absolute;
+	position: fixed;
+	top:-19%;
+	right:0px;
+	width: 25%;
+	height: 119%;
+	
+}
+#imageModal {
+	position: relative;
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+  }
+
+  #imageModal img {
+	position: relative;
+    border: 10px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 50%; /* 或者你想要的尺寸 */
+    max-width: 600px; /* 最大宽度，防止太大 */
+	z-index: 10000;
+  }
+:root {
+	/* webchat 工具栏的颜色 */
+	--webchat-toolbar-background-color: #1464E4;
+	/* webchat 工具栏文字和按钮的颜色 */
+	--webchat-toolbar-text-color: #FFF;
+}
+
+/* webchat 对话框如果被遮挡，可以尝试通过 z-index、bottom、right 等设置 来调整*/
+.webchat-container {
+	z-index: 10001;
+	bottom: 10px;
+	right: 10px;
+}
+
+/* webchat 的唤起按钮如果被遮挡，可以尝试通过 z-index、bottom、right 等设置 来调整。也可以通过 CSS 进一步定制唤起按钮的形状、大小等。 */
+.webchat-bubble-tip {
+	z-index: 10002;
+	bottom: 20px;
+	right: 20px;
+}

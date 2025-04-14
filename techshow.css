@@ -1,0 +1,233 @@
+body{
+
+		text-align: center;
+		width: 100%;
+		height: auto;
+	}
+	.jishujieshao{
+		float: none; /* 移除原有浮动 */
+    text-align: center;
+		
+	}
+    header{
+        width: 100%;
+        height: 18%;
+       background-color: #222222 !important;
+  }
+	section{
+		height: 1900px;
+		width: 100%;
+        background-color: #D4E5EF;
+	}
+    .custom-header {
+    background-color: #222222 !important;
+    width: 100%;
+    height: 18%;
+}
+	footer{
+		height: 300px;
+		width:100%;
+		background-color: #333333;
+	}
+	.footerbutton button{
+		font-size: 20px;
+		color: #222222;
+		text-decoration: none;
+		display: flex;
+		flex-direction: column;
+		margin-top: 4%;
+		width: 100%;
+	}
+	.footerbutton a{
+		text-decoration: none;
+		color: #222222;
+	}
+	.footerbutton{
+		position: absolute;
+		margin-top: 5%;
+		margin-left: 5%;
+	}
+	.word1 {
+    font-size: 36px;
+    color: #005387;
+    margin: 10px auto 15px; /* 上边距10px | 水平居中 | 下边距15px */
+    width: fit-content;
+    text-align: center;
+    border-bottom: 3px solid #005387;
+    padding-bottom: 8px;
+    position: relative;
+    top: 30px; /* 微调垂直位置 */
+}
+	h3{
+		font-size: 25px;
+		width: 100%;
+		margin-top: -22%;
+		margin-left: 50%;
+	}
+  /* 设置视频容器的样式 */
+  .video-container {
+    width: 1100px;
+    height: 600px;
+    margin: 100px auto 50px; /* 上下边距+水平居中 */
+    padding: 0;
+    display: block; /* 替换float布局 */
+    position: relative;
+    left: auto;
+    transform: none;
+    clear: both; /* 清除上方浮动元素影响 */
+}
+
+  video {
+    width: 100%; /* 视频宽度填满容器 */
+    height: auto; /* 高度自动 */
+  }
+  .introduction{
+	  font-size: 20px;
+	  text-align: left;
+	  width: 32%;
+	  height: auto;
+	  float: right;
+	  margin-right: 3%;
+	  margin-top: 10%;
+  }
+
+  .word2{
+  	color: black;
+  	float: left;
+  	margin-left: 200px;
+  }
+  .menu ul li{
+            display:inline-block;
+            width:10%;
+            height:38px;
+            margin-right:103px;
+            margin-bottom:2px;
+            text-align:center;
+            line-height:45px;
+            float: left;
+            position: relative;
+        }
+        .menu {
+            font-family: 微软雅黑;
+            width:70%;
+            float: right;
+            margin-top: 22px;
+            margin-right: 10%;
+        }
+        .menu ul {
+            padding:0;
+            margin:0;
+            list-style-type: none;
+            z-index: 2;
+        }
+        .menu ul li a, .menu ul li a:visited {
+            display:block;
+            text-align:center;
+            text-decoration:none;
+            width:230px;
+            height:45px;
+            color:#222222;
+            font-weight: bold;
+            border:10px solid #AAA;
+            border-width:0px 0px 0 0;
+            background:aliceblue;
+            line-height:30px;
+            font-size:25px;
+            margin-top: 3px;
+        }
+        .menu ul li ul {
+            display: none;
+        }
+        .menu ul li:hover a{
+            color:#000000;
+            background:#005387;
+        }
+        .menu ul li:hover ul {
+            display:block;
+            position:absolute;
+            top:40px;
+            left:0px;
+            width:100px;
+        }
+        .menu ul li:hover ul li a {
+            display:block;
+            background:#F0F3F8;
+            color:#000;
+        }
+        .menu ul li:hover ul li a:hover {
+            background:#FFF100;
+            color:#000;
+        }
+        .menu ul li a.hide{
+            background: #FFF100;
+            color:#000000;
+            display: block;
+        }
+
+
+/* 技术特征模块 */
+.tech-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin: 50px 10%;
+	margin-top: 200px;
+}
+
+.tech-card {
+    background: rgba(255,255,255,0.9);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0,83,135,0.1);
+    border: 1px solid #00538720;
+}
+
+.tech-card h3 {
+    color: #005387;
+    font-size: 28px;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+.tech-icon {
+    font-size: 60px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* 创新数据展示 */
+.innovation-section {
+    text-align: center;
+    margin: 60px 0;
+    background: #F0F8FF;
+    padding: 40px 0;
+}
+
+.innovation-item {
+    display: inline-block;
+    margin: 0 50px;
+    padding: 20px;
+}
+
+.highlight {
+    display: block;
+    color: #005387;
+    font-size: 42px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+/* 列表美化 */
+.tech-card ul, .tech-card ol {
+    text-align: left;
+    padding-left: 20px;
+}
+.tech-card p {
+    font-size: 24px;
+}
+.tech-card li {
+    margin: 12px 0;
+    color: #444;
+    line-height: 1.6;
+    text-align: center;
+}
