@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>实时手势识别系统</title>
+    <link
+      rel="icon"
+      href="https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="//g.alicdn.com??code/npm/@ali/hmod-ace-2023-box/0.1.0/index.css,code/npm/@ali/hmod-ace-2023-service-contact-us/0.0.24/index.css,code/npm/@ali/hmod-aliyun-com-floating-toolbar/0.1.6/index.css,code/npm/@ali/hmod-aliyun-com-global-nav-search/0.5.10/index.css,code/npm/@ali/hmod-aliyun-com-global-nav/0.1.20/index.css,hmod/ace-2023-homepage-banner/0.1.11/index.css,hmod/ace-2023-homepage-news/0.1.5/index.css,hmod/ace-common-aliyun-index-title/0.0.4/index.css,hmod/ace-common-row-aliyun-free-trial/0.0.4/index.css,hmod/ace-common-row-aliyun-standard/0.0.8/index.css,hmod/ace-common-row-basic-product-datas/0.0.6/index.css,hmod/ace-common-row-entry-alicloud-service/0.0.6/index.css,hmod/ace-customer-case-home/0.1.1/index.css,hmod/ace-dpl-home-map/0.1.0/index.css,hmod/ace-dpl-home-product-category/0.1.0/index.css,hmod/ace-dpl-home-row-best-practices/0.0.10/index.css,hmod/ace-dpl-new-to-link/0.0.8/index.css,hmod/ace-homepage-2020-hmod-footer/0.1.5/index.css,hmod/ace-index-card-product-trial-service/0.0.5/index.css"
+      rel="stylesheet"
+    />
+    <style>
+        /* 原有header样式保持不变 */
+        header{
+            width: 100%;
+            height: 18%;
+            background-color: #222222;
+        }
+        .word2{
+            color: black;
+            float: left;
+            margin-left: 200px;
+        }
+        .menu ul li{
+            display:inline-block;
+            width:10%;
+            height:38px;
+            margin-right:103px;
+            margin-bottom:2px;
+            text-align:center;
+            line-height:45px;
+            float: left;
+            position: relative;
+        }
+        .menu {
+            font-family: 微软雅黑;
+            width:70%;
+            float: right;
+            margin-top: 22px;
+            margin-right: 10%;
+        }
+        .menu ul {
+            padding:0;
+            margin:0;
+            list-style-type: none;
+            z-index: 2;
+        }
+        .menu ul li a, .menu ul li a:visited {
+            display:block;
+            text-align:center;
+            text-decoration:none;
+            width:230px;
+            height:45px;
+            color:#222222;
+            font-weight: bold;
+            border:10px solid #AAA;
+            border-width:0px 0px 0 0;
+            background:aliceblue;
+            line-height:30px;
+            font-size:25px;
+            margin-top: 3px;
+        }
+        .menu ul li ul {
+            display: none;
+        }
+        .menu ul li:hover a{
+            color:#000000;
+            background:#005387;
+        }
+        .menu ul li:hover ul {
+            display:block;
+            position:absolute;
+            top:40px;
+            left:0px;
+            width:100px;
+        }
+        .menu ul li:hover ul li a {
+            display:block;
+            background:#F0F3F8;
+            color:#000;
+        }
+        .menu ul li:hover ul li a:hover {
+            background:#FFF100;
+            color:#000;
+        }
+        .menu ul li a.hide{
+            background: #FFF100;
+            color:#000000;
+            display: block;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #D4E5EF;
+            color: #1a1a1a;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+        .main-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 2.2em;
+            color: #2d2d2d;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 3px;
+            background: #5BC0EB;
+        }
+
+        /* 技术介绍模块 */
+        .tech-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .tech-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s;
+        }
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+        .tech-card h3 {
+            color: #2d2d2d;
+            margin: 0 0 15px;
+            font-size: 1.4em;
+            position: relative;
+            padding-left: 30px;
+        }
+        .tech-card h3::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #5BC0EB;
+        }
+        .tech-card ul {
+            padding-left: 25px;
+            margin: 0;
+            color: #444;
+            line-height: 1.6;
+        }
+        .tech-card li {
+            margin: 8px 0;
+        }
+
+        .video-panel {
+            position: relative;
+            width: 640px;
+            height: 480px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background: #fff;
+        }
+        #videoElement {
+            width: 100%;
+            height: 100%;
+            transform: scaleX(-1); /* 添加镜像翻转 */
+        }
+        #overlayCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2; /* 必须高于videoElement */
+            pointer-events: none;
+        }
+
+        .controls {
+            margin: 30px auto;
+            justify-content: center;
+            display: flex; /* 添加这一行，将容器设置为 flex 布局 */
+            justify-content: center; /* 添加这一行，使子元素在水平方向上居中 */
+        }
+        #startBtn,#stopBtn {
+            padding: 12px 35px;
+            font-size: 16px;
+            border-radius: 8px;
+            background: #5BC0EB;
+            color: white;
+            transition: all 0.3s;
+        }
+        #startBtn,#stopBtn:hover {
+            background: #3AA9D6;
+            box-shadow: 0 4px 12px rgba(91, 192, 235, 0.3);
+        }
+        .stats {
+            background: rgba(255, 255, 255, 0.9);
+            width: fit-content;
+            margin: 20px auto;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        footer{
+            height: 300px;
+            width:100%;
+            background-color: #333333;
+        }
+        footerbutton button{
+            font-size: 20px;
+            color: #222222;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            margin-top: 4%;
+            width: 100%;
+        }
+        .footerbutton a{
+            text-decoration: none;
+            color: #222222;
+        }
+        .footerbutton{
+            position: absolute;
+            margin-top: 5%;
+            margin-left: 5%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="word2">掌上家居</h1>
+        <div class="menu">
+            <ul>
+                <li><a href="indexw.html">首页</a></li>
+                <li><a href="product.html" class="hide">产品展示﹀</a>
+                <div id="hidemenu2">
+                    <ul>
+                        <li><a href="aweb.html">实时系统</a></li>
+                        <li><a href="techshow.html">技术介绍</a></li>
+                        <li><a href="product.html">全屋智能</a></li>
+                        <li><a href="comparew.html">智能家电</a></li>
+                    </ul>
+                </div>
+                </li>
+                <li><a href="guide.html">定制指南</a></li>
+                <li><a id="hidemenu1" href="shoppingmall.html">家居商城</a></li>
+                <li><a href="aboutus.html" id="hidemenu1">关于我们 </a></li>
+            </ul>
+            <div class="loginw">
+                <button type="submit" style="font-size: 20px;"><a href="loginw.html" style="text-decoration: none;color: #222222;">登录</a></button>
+                <button type="submit" style="font-size: 20px;"><a href="loginw.html" style="text-decoration: none;color: #222222;">注册</a></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="main-title">实时手势交互系统</h1>
+
+        <div class="tech-section">
+            <div class="tech-card">
+                <h3>MediaPipe关键点检测</h3>
+                <ul>
+                    <li>实时手部21个关键点定位</li>
+                    <li>毫秒级响应速度（＜10ms）</li>
+                    <li>支持复杂手势解析</li>
+                    <li>静态手势准确率92%</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>YOLOv5多目标检测</h3>
+                <ul>
+                    <li>100+ FPS实时检测</li>
+                    <li>mAP_0.5达0.995</li>
+                    <li>多手势同步识别</li>
+                    <li>抗遮挡优化设计</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>KNN/SVM机器学习</h3>
+                <ul>
+                    <li>小样本快速训练</li>
+                    <li>双模型加权融合</li>
+                    <li>资源占用优化</li>
+                    <li>简单手势快速识别</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h3>CNN卷积神经网络</h3>
+                <ul>
+                    <li>动态手势识别89%</li>
+                    <li>自动特征提取</li>
+                    <li>平移旋转不变性</li>
+                    <li>复杂场景适配</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="video-panel">
+            <video id="videoElement" playsinline></video>
+            <canvas id="overlayCanvas" class="overlay"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="startBtn">启动摄像头</button>
+            <button id="stopBtn" disabled>停止识别</button>
+        </div>
+
+        <div class="stats">
+            <span id="fpsCounter">FPS: 0</span> |
+            <span id="detectionCounter">检测数: 0</span>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p style="font-size: 40px;color: white;float: left;margin-left: 220px;margin-top: 100px;font-weight: bold;">掌上家居</p>
+        </div>
+        <div class="guide" style="float: left;margin-left: 100px;margin-top: 20px;">
+            <p style="font-size: 30px;float: left;margin-left: 100px;color: white;">快速链接</p>
+            <div class="footerbutton">
+                <div><a href="techshow.html" style="color: white;margin-left: -25px;">技术介绍</a>
+                    <a href="product.html" style="color: white;margin-left: 45px;">全屋智能</a></div>
+                <div style="margin-top: 20px;"><a href="comparew.html" style="color: white;margin-left: -25px;">智能家电</a>
+                    <a href="guide.html" style="color: white;margin-left: 45px;">定制指南</a></div>
+                <div style="margin-top: 20px;"><a href="shoppingmall.html" style="color: white;margin-left: -25px;">家居商城</a>
+                    <a href="aboutus.html" style="color: white;margin-left: 45px;">关于我们</a></div>
+            </div>
+        </div>
+        <div style="float: left;margin-left: 200px;margin-top: 20px;">
+            <p style="font-size: 30px;margin-left: 50px;color: white;">联系我们</p>
+            <p style="font-size: 16px;margin-left: 50px;color: white;">人工电话：1821234567</p>
+            <p style="font-size: 16px;margin-left: 50px;color: white;">固定电话：66261234</p>
+            <p style="font-size: 16px;margin-left: 50px;color: white;">传真：888-888-6666</p>
+        </div>
+        <div style="float: left;margin-left: 200px;margin-top: 20px;">
+            <p style="font-size: 30px;margin-left: 50px;color: white;">站内搜索</p>
+            <form>
+                <input style="font-size: 20px;" type="text" id="keyword" name="q" placeholder="输入搜索关键词...">
+                <div><button type="submit" style="font-size: 18px; margin-top: 20px;margin-left: 200px;" onclick="search()">搜索</button></div>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        const videoElement = document.getElementById('videoElement');
+        const overlayCanvas = document.getElementById('overlayCanvas');
+        const ctx = overlayCanvas.getContext('2d');
+        let isDetecting = false;
+        let frameCount = 0;
+        let startTime = Date.now();
+
+        // 初始化视频尺寸
+        function initCanvasSize() {
+            overlayCanvas.width = videoElement.videoWidth;
+            overlayCanvas.height = videoElement.videoHeight;
+        }
+
+        // 绘制检测结果
+        function drawDetections(detections) {
+            ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+            detections.forEach(det => {
+                let [x1, y1, x2, y2] = det.bbox;
+                // 修正坐标计算逻辑
+                x1 = overlayCanvas.width - x1;
+                x2 = overlayCanvas.width - x2;
+                [x1, x2] = [Math.min(x1, x2), Math.max(x1, x2)]; // 关键修正
+
+                const width = x2 - x1;
+                const height = y2 - y1;
+
+                // 绘制边界框
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#00ff88';
+                ctx.rect(x1, y1, width, height);
+                ctx.stroke();
+
+                // 绘制标签（保持与0aweb.html一致）
+                ctx.fillStyle = '#00ff88';
+                const text = `${det.label} ${det.confidence.toFixed(2)}`;
+                ctx.fillRect(x1, y1 - 20, ctx.measureText(text).width + 10, 20);
+                ctx.fillStyle = '#000';
+                ctx.font = '14px Arial';
+                ctx.fillText(text, x1 + 5, y1 - 5);
+            });
+
+            // 更新统计信息
+            frameCount++;
+            if (Date.now() - startTime >= 1000) {
+                document.getElementById('fpsCounter').textContent = `FPS: ${frameCount}`;
+                frameCount = 0;
+                startTime = Date.now();
+            }
+            document.getElementById('detectionCounter').textContent =
+                `检测数: ${detections.length}`;
+        }
+
+        // 发送帧到后端
+        async function processFrame() {
+            if (!isDetecting) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            canvas.getContext('2d').drawImage(videoElement, 0, 0);
+
+            const formData = new FormData();
+            canvas.toBlob(async blob => {
+                formData.append('image', blob, 'frame.jpg');
+
+                try {
+                    const response = await fetch('http://localhost:5000/detect', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const detections = await response.json();
+                    drawDetections(detections);
+                } catch (error) {
+                    console.error('检测失败:', error);
+                }
+
+                requestAnimationFrame(processFrame);
+            }, 'image/jpeg', 0.8);
+        }
+
+        // 初始化摄像头
+        async function startCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: { ideal: 640 },
+                    height: { ideal: 480 },
+                    facingMode: 'user'
+                }
+            });
+            videoElement.srcObject = stream;
+
+            videoElement.onloadedmetadata = () => {
+                initCanvasSize();
+                videoElement.play();
+                isDetecting = true;
+                processFrame();
+            };
+        }
+
+        // 事件监听
+        document.getElementById('startBtn').addEventListener('click', async () => {
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            await startCamera();
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            isDetecting = false;
+            videoElement.srcObject.getTracks().forEach(track => track.stop());
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+        });
+    </script>
+
+
+<script src="assets/demo_layout.js"></script>
+
+    <link rel="stylesheet" crossorigin href="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.css" />
+    <script type="module" crossorigin src="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.js"></script>
+    <script>
+      window.CHATBOT_CONFIG = {
+        endpoint: "https://webchat-bot-ls-skaqgtyhnd.cn-hangzhou.fcapp.run/chat", // 可以替换为 https://{your-fc-http-trigger-domain}/chat
+        displayByDefault: false, // 默认不显示 AI 助手对话框
+        title: 'AI 助手', // 自定义 AI 助手标题
+        draggable: true, // 是否开启拖拽
+        aiChatOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+          conversationOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+            conversationStarters: [
+              {prompt: '哪款智能门锁安全性最好？'},
+              {prompt: '支持全国上门安装吗？'},
+              {prompt: '简单介绍一下掌上家居服务平台？'},
+            ]
+          },
+          displayOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#display-options
+            height: 600,
+            // width: 400,
+          },
+          personaOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#chat-personas
+            assistant: {
+              name: '你好，我是你的 AI 助手',
+              // AI 助手的图标
+              avatar: 'https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng',
+              tagline: '您可以尝试点击下方的快捷入口开启体验！',
+            }
+          },
+          messageOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#message-options
+            waitTimeBeforeStreamCompletion: 'never'
+          }
+        },
+        dataProcessor: {
+          /**
+          * 在向后端大模型应用发起请求前改写 Prompt。
+          * 比如可以用于总结网页场景，在发送前将网页内容包含在内，同时避免在前端显示这些内容。
+          * @param {string} prompt - 用户输入的 Prompt
+          * @param {string}  - 改写后的 Prompt
+          */
+          rewritePrompt(prompt) {
+            return prompt;
+          }
+        }
+      };
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>注册</title>
+        <link rel="stylesheet" href="loginw.css">
+        <link
+          rel="icon"
+          href="https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
+          type="image/x-icon"
+        />
+        <link
+          href="//g.alicdn.com??code/npm/@ali/hmod-ace-2023-box/0.1.0/index.css,code/npm/@ali/hmod-ace-2023-service-contact-us/0.0.24/index.css,code/npm/@ali/hmod-aliyun-com-floating-toolbar/0.1.6/index.css,code/npm/@ali/hmod-aliyun-com-global-nav-search/0.5.10/index.css,code/npm/@ali/hmod-aliyun-com-global-nav/0.1.20/index.css,hmod/ace-2023-homepage-banner/0.1.11/index.css,hmod/ace-2023-homepage-news/0.1.5/index.css,hmod/ace-common-aliyun-index-title/0.0.4/index.css,hmod/ace-common-row-aliyun-free-trial/0.0.4/index.css,hmod/ace-common-row-aliyun-standard/0.0.8/index.css,hmod/ace-common-row-basic-product-datas/0.0.6/index.css,hmod/ace-common-row-entry-alicloud-service/0.0.6/index.css,hmod/ace-customer-case-home/0.1.1/index.css,hmod/ace-dpl-home-map/0.1.0/index.css,hmod/ace-dpl-home-product-category/0.1.0/index.css,hmod/ace-dpl-home-row-best-practices/0.0.10/index.css,hmod/ace-dpl-new-to-link/0.0.8/index.css,hmod/ace-homepage-2020-hmod-footer/0.1.5/index.css,hmod/ace-index-card-product-trial-service/0.0.5/index.css"
+          rel="stylesheet"
+        />
+    </head>
+    <body>
+        <section>
+            <div class="container">
+                <div class="form-box">
+                    <!-- 注册 -->
+                    <div class="register-box hidden">
+                        <h1>register</h1>
+                        <input type="text" id="regUsername" placeholder="用户名">
+                        <input type="email" id="regEmail" placeholder="邮箱">
+                        <input type="password" id="regPassword" placeholder="密码">
+                        <input type="password" id="regConfirm" placeholder="确认密码">
+                        <button id="signupBtn" popovertarget="popup">注册</button>
+                    </div>
+                    <!-- 登录 -->
+                    <div class="login-box">
+                        <h1>login</h1>
+                        <input type="text" id="loginUsername" placeholder="用户名">
+                        <input type="password" id="loginPassword" placeholder="密码">
+                        <button id="loginBtn" popovertarget="popup">登录</button>
+                    </div>
+                </div>
+                <div class="con-box left">
+                    <h2>欢迎来到<span>掌上家居</span></h2>
+                    <p>你的<span>生活指南</span></p>
+                    <img src="./img/登陆注册2.jpg" alt="">
+                    <p>已有账号？</p>
+                    <button id="login">立即登录</button>
+                </div>
+                <div class="con-box right">
+                    <h2>欢迎来到<span>掌上家居</span></h2>
+                    <p>你的<span>生活指南</span></p>
+                    <img src="./img/登录注册.jpg" alt="">
+                    <p>尚未注册？</p>
+                    <button id="register">立即加入</button>
+                </div>
+            </div>
+            <!-- 替换原有弹窗代码 -->
+            <div id="popup" class="popup"></div>
+
+            <script>
+                // 用户存储系统（新增）
+                let users = JSON.parse(localStorage.getItem('smartHomeUsers')) || [];
+
+                // 新增统一提示方法
+                function showPopup(message, type) {
+                    const popup = document.getElementById('popup');
+                    popup.textContent = message;
+                    popup.className = `popup ${type} show`;
+                    setTimeout(() => popup.classList.remove('show'), 2000);
+                }
+
+                // 新增响应式函数
+                function adjustLayout() {
+                    const container = document.querySelector('.container');
+                    if (window.innerWidth < 768) {
+                        container.style.width = '90%';
+                        container.style.margin = '10% auto';
+                    } else {
+                        container.style.width = '800px';
+                    }
+                }
+                window.addEventListener('resize', adjustLayout);
+                adjustLayout(); // 初始加载时调用
+
+                // 要操作到的元素
+                let login = document.getElementById('login');
+                let register = document.getElementById('register');
+                let form_box = document.getElementsByClassName('form-box')[0];
+                let register_box = document.getElementsByClassName('register-box')[0];
+                let login_box = document.getElementsByClassName('login-box')[0];
+
+                // 去注册按钮点击事件
+                register.addEventListener('click', () => {
+                    form_box.style.transform = 'translateX(80%)';
+                    login_box.classList.add('hidden');
+                    register_box.classList.remove('hidden');
+                });
+
+                // 去登录按钮点击事件
+                login.addEventListener('click', () => {
+                    form_box.style.transform = 'translateX(0%)';
+                    register_box.classList.add('hidden');
+                    login_box.classList.remove('hidden');
+                });
+
+                // 注册按钮点击事件
+                document.getElementById('signupBtn').addEventListener('click', function() {
+                    const username = document.getElementById('regUsername').value.trim();
+                    const password = document.getElementById('regPassword').value;
+                    const confirm = document.getElementById('regConfirm').value;
+
+                    // 验证逻辑（新增）
+                    if (!username || !password || !confirm) {
+                        showPopup('所有字段必须填写', 'error');
+                        return;
+                    }
+                    if (password !== confirm) {
+                        showPopup('密码不一致', 'error');
+                        return;
+                    }
+                    if (users.some(user => user.username === username)) {
+                        showPopup('用户名已存在', 'error');
+                        return;
+                    }
+
+                    // 保存用户（新增）
+                    users.push({ username, password });
+                    localStorage.setItem('smartHomeUsers', JSON.stringify(users));
+
+                    showPopup('注册成功，请登录', 'success');
+                    setTimeout(() => {
+                        // 切换到登录界面（新增）
+                        form_box.style.transform = 'translateX(0)';
+                        register_box.classList.add('hidden');
+                        login_box.classList.remove('hidden');
+                    }, 2000);
+                });
+
+                // 登录按钮点击事件
+                document.getElementById('loginBtn').addEventListener('click', function(event) {
+                    event.preventDefault(); // 阻止默认行为
+
+                    const username = document.getElementById('loginUsername').value.trim();
+                    const password = document.getElementById('loginPassword').value;
+                    const users = JSON.parse(localStorage.getItem('smartHomeUsers')) || [];
+
+                    const user = users.find(u => u.username === username);
+                    if (!user) {
+                        showPopup('账号不存在', 'error');
+                        return false; // 阻止后续执行
+                    }
+                    if (user.password !== password) {
+                        showPopup('密码错误', 'error');
+                        return false; // 阻止后续执行
+                    }
+
+                    showPopup('登录成功', 'success');
+                    setTimeout(() => {
+                        window.location.href = "indexw.html";
+                    }, 2000);
+
+                    return true; // 只有验证通过才允许跳转
+                });
+            </script>
+
+            <script src="assets/demo_layout.js"></script>
+
+            <link rel="stylesheet" crossorigin href="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.css" />
+            <script type="module" crossorigin src="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.js"></script>
+            <script>
+                window.CHATBOT_CONFIG = {
+                    endpoint: "https://webchat-bot-ls-skaqgtyhnd.cn-hangzhou.fcapp.run/chat", // 可以替换为 https://{your-fc-http-trigger-domain}/chat
+                    displayByDefault: false, // 默认不显示 AI 助手对话框
+                    title: 'AI 助手', // 自定义 AI 助手标题
+                    draggable: true, // 是否开启拖拽
+                    aiChatOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+                        conversationOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+                            conversationStarters: [
+                                {prompt: '哪款智能门锁安全性最好？'},
+                                {prompt: '支持全国上门安装吗？'},
+                                {prompt: '简单介绍一下掌上家居服务平台？'},
+                            ]
+                        },
+                        displayOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#display-options
+                            height: 600,
+                            // width: 400,
+                        },
+                        personaOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#chat-personas
+                            assistant: {
+                                name: '你好，我是你的 AI 助手',
+                                // AI 助手的图标
+                                avatar: 'https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng',
+                                tagline: '您可以尝试点击下方的快捷入口开启体验！',
+                            }
+                        },
+                        messageOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#message-options
+                            waitTimeBeforeStreamCompletion: 'never'
+                        }
+                    },
+                    dataProcessor: {
+                        /**
+                        * 在向后端大模型应用发起请求前改写 Prompt。
+                        * 比如可以用于总结网页场景，在发送前将网页内容包含在内，同时避免在前端显示这些内容。
+                        * @param {string} prompt - 用户输入的 Prompt
+                        * @param {string}  - 改写后的 Prompt
+                        */
+                        rewritePrompt(prompt) {
+                            return prompt;
+                        }
+                    }
+                };
+            </script>
+        </section>
+    </body>
+</html>

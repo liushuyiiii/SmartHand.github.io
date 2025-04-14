@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <link
+      rel="icon"
+      href="https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="//g.alicdn.com??code/npm/@ali/hmod-ace-2023-box/0.1.0/index.css,code/npm/@ali/hmod-ace-2023-service-contact-us/0.0.24/index.css,code/npm/@ali/hmod-aliyun-com-floating-toolbar/0.1.6/index.css,code/npm/@ali/hmod-aliyun-com-global-nav-search/0.5.10/index.css,code/npm/@ali/hmod-aliyun-com-global-nav/0.1.20/index.css,hmod/ace-2023-homepage-banner/0.1.11/index.css,hmod/ace-2023-homepage-news/0.1.5/index.css,hmod/ace-common-aliyun-index-title/0.0.4/index.css,hmod/ace-common-row-aliyun-free-trial/0.0.4/index.css,hmod/ace-common-row-aliyun-standard/0.0.8/index.css,hmod/ace-common-row-basic-product-datas/0.0.6/index.css,hmod/ace-common-row-entry-alicloud-service/0.0.6/index.css,hmod/ace-customer-case-home/0.1.1/index.css,hmod/ace-dpl-home-map/0.1.0/index.css,hmod/ace-dpl-home-product-category/0.1.0/index.css,hmod/ace-dpl-home-row-best-practices/0.0.10/index.css,hmod/ace-dpl-new-to-link/0.0.8/index.css,hmod/ace-homepage-2020-hmod-footer/0.1.5/index.css,hmod/ace-index-card-product-trial-service/0.0.5/index.css"
+      rel="stylesheet"
+    />
+<title>结算界面</title>
+    </head>
+<style>
+  :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f8f9fa;
+    --shadow-color: rgba(0,0,0,0.1);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background-color:#D4E5EF;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    position: relative;
+  }
+
+  .cart-summary {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .cart-items-list {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+
+  .payment-method {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .payment-btn {
+    flex: 1;
+    max-width: 300px;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .payment-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+  }
+
+  .payment-btn img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .qrcode {
+    margin: 2rem auto;
+    text-align: center;
+  }
+
+  .qrcode img {
+    width: min(80%, 300px);
+    height: auto;
+    border: 10px solid white;
+    box-shadow: 0 4px 15px var(--shadow-color);
+  }
+
+  .total-amount {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .total-amount span {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      margin: 1rem;
+      padding: 1rem;
+    }
+
+    .payment-btn {
+      max-width: 100%;
+    }
+  }
+  .fanhui {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-decoration: none !important; /* 移除下划线 */
+    color: #2c3e50 !important; /* 深蓝灰色文字 */
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); /* 渐变背景 */
+    border: 1px solid rgba(44, 62, 80, 0.1); /* 精致边框 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 柔和阴影 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
+    position: relative;
+    overflow: hidden;
+}
+
+.fanhui::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent);
+    transition: all 0.6s;
+}
+
+.fanhui:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    color: #3498db !important; /* 悬停颜色变化 */
+    border-color: rgba(52, 152, 219, 0.2);
+}
+
+.fanhui:hover::before {
+    left: 100%;
+}
+
+.fanhui:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 新增响应式设计 */
+@media (max-width: 768px) {
+    .fanhui {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+</style>
+    <div class="container">
+  <h1 style="font-size: 2.5rem; color: var(--primary-color); text-align: center; margin-bottom: 2rem;">订单结算</h1>
+
+  <!-- 购物车商品清单 -->
+  <div class="cart-summary">
+    <h2 style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 1.5rem;">商品清单</h2>
+    <div class="cart-items-list" id="cartItems"></div>
+    <div class="total-amount">
+      待支付金额：<span id="totalAmount"></span>
+    </div>
+  </div>
+
+  <!-- 支付方式 -->
+  <div class="payment-method">
+    <button class="payment-btn zhifu1">
+      <img src="img/alipay.jpg" alt="支付宝">
+      <span style="font-size: 1.2rem;">支付宝支付</span>
+    </button>
+    <button class="payment-btn zhifu2">
+      <img src="img/wechatpay.jpg" alt="微信支付">
+      <span style="font-size: 1.2rem;">微信支付</span>
+    </button>
+  </div>
+
+  <div class="qrcode">
+    <p style="font-size: 1.2rem; color: #666; margin-bottom: 1rem;">扫码支付</p>
+    <img src="img/erweima.jpg" alt="支付二维码">
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="cart.html" class="fanhui">
+    ← 返回购物车
+</a>
+  </div>
+</div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 从 localStorage 读取购物车数据
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartItemsContainer = document.getElementById('cartItems');
+  const totalAmountElement = document.getElementById('totalAmount');
+
+  // 生成购物车清单
+  const itemsMap = new Map();
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price);
+    if(itemsMap.has(item.id)) {
+      itemsMap.get(item.id).quantity++;
+    } else {
+      itemsMap.set(item.id, {...item, quantity: 1});
+    }
+  });
+
+  itemsMap.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'cart-item';
+    itemElement.innerHTML = `
+      <div style="flex:2;">${item.name}</div>
+      <div style="flex:1;">￥${item.price}</div>
+      <div style="flex:1;">×${item.quantity}</div>
+      <div style="flex:1; color: #e74c3c;">￥${item.price * item.quantity}</div>
+    `;
+    cartItemsContainer.appendChild(itemElement);
+  });
+
+  // 显示总金额
+  totalAmountElement.textContent = '￥' + total.toFixed(2);
+
+  // 原有总价显示逻辑保持不变
+  const savedTotal = localStorage.getItem('total');
+  if(savedTotal) {
+    document.getElementById('totalAmount').textContent = '￥' + Number(savedTotal).toFixed(2);
+  }
+});
+</script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+          // 从 localStorage 读取总价
+          const total = localStorage.getItem('total');
+          if (total) {
+              document.getElementById('totalAmount').textContent = total;
+          }
+      });
+</script>
+<script src="assets/demo_layout.js"></script>
+
+    <link rel="stylesheet" crossorigin href="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.css" />
+    <script type="module" crossorigin src="https://g.alicdn.com/aliyun-documentation/web-chatbot-ui/0.0.24/index.js"></script>
+    <script>
+      window.CHATBOT_CONFIG = {
+        endpoint: "https://webchat-bot-ls-skaqgtyhnd.cn-hangzhou.fcapp.run/chat", // 可以替换为 https://{your-fc-http-trigger-domain}/chat
+        displayByDefault: false, // 默认不显示 AI 助手对话框
+        title: 'AI 助手', // 自定义 AI 助手标题
+        draggable: true, // 是否开启拖拽
+        aiChatOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+          conversationOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#conversation-options
+            conversationStarters: [
+              {prompt: '哪款智能门锁安全性最好？'},
+              {prompt: '支持全国上门安装吗？'},
+              {prompt: '简单介绍一下掌上家居服务平台？'},
+            ]
+          },
+          displayOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#display-options
+            height: 600,
+            // width: 400,
+          },
+          personaOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#chat-personas
+            assistant: {
+              name: '你好，我是你的 AI 助手',
+              // AI 助手的图标
+              avatar: 'https://img.alicdn.com/imgextra/i2/O1CN01Pda9nq1YDV0mnZ31H_!!6000000003025-54-tps-120-120.apng',
+              tagline: '您可以尝试点击下方的快捷入口开启体验！',
+            }
+          },
+          messageOptions: { // 自定义取值参考：https://docs.nlkit.com/nlux/reference/ui/ai-chat#message-options
+            waitTimeBeforeStreamCompletion: 'never'
+          }
+        },
+        dataProcessor: {
+          /**
+          * 在向后端大模型应用发起请求前改写 Prompt。
+          * 比如可以用于总结网页场景，在发送前将网页内容包含在内，同时避免在前端显示这些内容。
+          * @param {string} prompt - 用户输入的 Prompt
+          * @param {string}  - 改写后的 Prompt
+          */
+          rewritePrompt(prompt) {
+            return prompt;
+          }
+        }
+      };
+    </script>
+</body>
+</html>
