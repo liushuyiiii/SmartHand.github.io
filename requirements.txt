@@ -4,3 +4,4 @@ python-dotenv
 requests
 opencv-python
 torch
+gunicorn

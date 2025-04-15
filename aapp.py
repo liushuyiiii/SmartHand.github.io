@@ -6,6 +6,7 @@ from flask_cors import CORS
 from ademo import Yolov5Detector  # 直接使用原始代码中的检测器
 import os
 from dotenv import load_dotenv
+import requests
 app = Flask(__name__)
 CORS(app)
 
@@ -15,8 +16,12 @@ detector = Yolov5Detector(
     imgsz=640,
     device='cuda:0'  # 根据实际情况选择cpu/cuda
 )
+# 加载环境变量
+load_dotenv()
 
+# 修改检测接口，添加API调用逻辑
 @app.route('/detect', methods=['POST'])
+
 def detect_frame():
     # 接收前端传来的视频帧
     frame = cv2.imdecode(np.frombuffer(request.files['image'].read(), np.uint8), cv2.IMREAD_COLOR)
@@ -36,24 +41,30 @@ def detect_frame():
         })
 
     return jsonify(results)
-# 调用外部API示例
-    import requests
-    api_url = os.getenv('TY_API_ENDPOINT')
+
+
+    # 调用通义千问API示例
+    api_url = os.getenv("TY_API_ENDPOINT")
     headers = {
-        'Authorization': f'Bearer {os.getenv("TY_API_KEY")}',
-        'Content-Type': 'application/json'
+        "Authorization": f"Bearer {os.getenv('TY_API_KEY')}",
+        "Content-Type": "application/json"
     }
     payload = {
-        "text": "检测到手势",
-        "parameters": {}
+        "model": "qwen-turbo",
+        "input": {
+            "messages": [
+                {"role": "user", "content": "检测到手势，请生成响应"}
+            ]
+        }
     }
     try:
-        response = requests.post(api_url, json=payload, headers=headers)
-        print("API Response:", response.json())
+        api_response = requests.post(api_url, json=payload, headers=headers)
+        print("通义千问API响应:", api_response.json())
     except Exception as e:
         print("API调用失败:", str(e))
 
-    return jsonify(results)  # 保持原有返回
+    # 返回原有检测结果
+    return jsonify(results)
 
 
 if __name__ == '__main__':
