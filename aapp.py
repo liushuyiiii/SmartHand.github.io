@@ -4,7 +4,8 @@ import numpy as np
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from ademo import Yolov5Detector  # 直接使用原始代码中的检测器
-
+import os
+from dotenv import load_dotenv
 app = Flask(__name__)
 CORS(app)
 
@@ -14,7 +15,6 @@ detector = Yolov5Detector(
     imgsz=640,
     device='cuda:0'  # 根据实际情况选择cpu/cuda
 )
-
 
 @app.route('/detect', methods=['POST'])
 def detect_frame():
@@ -36,6 +36,24 @@ def detect_frame():
         })
 
     return jsonify(results)
+# 调用外部API示例
+    import requests
+    api_url = os.getenv('TY_API_ENDPOINT')
+    headers = {
+        'Authorization': f'Bearer {os.getenv("TY_API_KEY")}',
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        "text": "检测到手势",
+        "parameters": {}
+    }
+    try:
+        response = requests.post(api_url, json=payload, headers=headers)
+        print("API Response:", response.json())
+    except Exception as e:
+        print("API调用失败:", str(e))
+
+    return jsonify(results)  # 保持原有返回
 
 
 if __name__ == '__main__':
